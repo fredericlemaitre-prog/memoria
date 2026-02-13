@@ -46,7 +46,7 @@ export default function Contact() {
           Nous sommes là pour répondre à vos questions.
         </p>
         <form
-          action="https://formsubmit.co/frederic.lemaitre@orange.fr"
+          action="https://formsubmit.co/frederic.lemaitre@gmail.com"
           method="POST"
           onSubmit={handleSubmit}
           style={{
