@@ -36,6 +36,7 @@ export default function Contact() {
         >
           <input type="hidden" name="_subject" value="Nouveau message depuis Mémoria" />
           <input type="hidden" name="_next" value="https://memoria.vercel.app/merci" />
+          <input type="hidden" name="_url" value="https://memoria.vercel.app/contact" />
           <input
             type="text"
             name="name"
