@@ -1,6 +1,31 @@
+import { useState } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 export default function Contact() {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    const form = e.target;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: formData,
+      });
+      if (response.ok) {
+        router.push('/merci'); // Redirection côté client vers la page locale
+      }
+    } catch (error) {
+      setIsSubmitting(false);
+      alert("Erreur lors de l'envoi, veuillez réessayer.");
+    }
+  };
+
   return (
     <div>
       <Head>
@@ -24,6 +49,7 @@ export default function Contact() {
         <form
           action="https://formsubmit.co/frederic.lemaitre@gmail.com"
           method="POST"
+          onSubmit={handleSubmit}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -35,8 +61,7 @@ export default function Contact() {
           }}
         >
           <input type="hidden" name="_subject" value="Nouveau message depuis Mémoria" />
-          <input type="hidden" name="_next" value="https://memoria.vercel.app/merci" />
-          <input type="hidden" name="_url" value="https://memoria.vercel.app/contact" />
+          <input type="hidden" name="_next" value="https://memoria-rjjx9sn0g-frederic-lemaitres-projects.vercel.app/merci" />
           <input
             type="text"
             name="name"
@@ -58,7 +83,7 @@ export default function Contact() {
             style={{ padding: '12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: 'em', resize: 'vertical' }}
             required
           />
-          <button type="submit" style={{
+          <button type="submit" disabled={isSubmitting} style={{
             backgroundColor: '#5a3d2b',
             color: 'white',
             padding: '12px',
@@ -68,7 +93,7 @@ export default function Contact() {
             cursor: 'pointer',
             transition: 'background-color 0.3s'
           }} onMouseOver={(e) => e.target.style.backgroundColor = '#3a2618'} onMouseOut={(e) => e.target.style.backgroundColor = '#5a3d2b'}>
-            Envoyer
+            {isSubmitting ? 'Envoi en cours...' : 'Envoyer'}
           </button>
         </form>
       </main>
