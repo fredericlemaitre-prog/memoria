@@ -1,30 +1,6 @@
-import { useState } from 'react';
 import Head from 'next/head';
 
 export default function Contact() {
-  const [message, setMessage] = useState('');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-
-    try {
-      const response = await fetch(form.action, {
-        method: "POST",
-        body: formData,
-      });
-      if (response.ok) {
-        setMessage('Merci ! Votre message a été envoyé.');
-        form.reset();
-      } else {
-        setMessage('Erreur, veuillez réessayer.');
-      }
-    } catch (error) {
-      setMessage('Erreur, veuillez réessayer.');
-    }
-  };
-
   return (
     <div>
       <Head>
@@ -48,7 +24,6 @@ export default function Contact() {
         <form
           action="https://formsubmit.co/frederic.lemaitre@gmail.com"
           method="POST"
-          onSubmit={handleSubmit}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -94,9 +69,9 @@ export default function Contact() {
           }} onMouseOver={(e) => e.target.style.backgroundColor = '#3a2618'} onMouseOut={(e) => e.target.style.backgroundColor = '#5a3d2b'}>
             Envoyer
           </button>
-          {message && <p style={{ marginTop: '15px', color: '#5a3d2b', fontWeight: 'bold' }}>{message}</p>}
         </form>
       </main>
     </div>
   );
 }
+
