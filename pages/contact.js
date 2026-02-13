@@ -6,21 +6,17 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = {
-      name: e.target.name.value,
-      email: e.target.email.value,
-      message: e.target.message.value,
-    };
+    const form = e.target;
+    const formData = new FormData(form);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: formData,
       });
       if (response.ok) {
         setMessage('Merci ! Votre message a été envoyé.');
-        e.target.reset();
+        form.reset();
       } else {
         setMessage('Erreur, veuillez réessayer.');
       }
@@ -49,15 +45,21 @@ export default function Contact() {
         <p style={{ fontSize: '1.1em', marginBottom: '30px' }}>
           Nous sommes là pour répondre à vos questions.
         </p>
-        <form onSubmit={handleSubmit} style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '15px',
-          backgroundColor: 'white',
-          padding: '30px',
-          borderRadius: '8px',
-          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
-        }}>
+        <form
+          action="https://formsubmit.co/frederic.lemaitre@orange.fr"
+          method="POST"
+          onSubmit={handleSubmit}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '15px',
+            backgroundColor: 'white',
+            padding: '30px',
+            borderRadius: '8px',
+            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
+          }}
+        >
+          <input type="hidden" name="_subject" value="Nouveau message depuis Mémoria" />
           <input
             type="text"
             name="name"
@@ -76,7 +78,7 @@ export default function Contact() {
             name="message"
             placeholder="Votre message"
             rows="5"
-            style={{ padding: '12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: '1em', resize: 'vertical' }}
+            style={{ padding: '12px', border: '1px solid #ddd', borderRadius: '4px', fontSize: 'em', resize: 'vertical' }}
             required
           />
           <button type="submit" style={{
